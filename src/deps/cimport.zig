@@ -1343,27 +1343,27 @@ pub const u_int32_t = __uint32_t;
 pub const u_int64_t = __uint64_t;
 pub const register_t = c_long;
 pub fn __bswap_16(arg___bsx: __uint16_t) callconv(.C) __uint16_t {
-    var __bsx = arg___bsx;
+    const __bsx = arg___bsx;
     return @as(__uint16_t, @bitCast(@as(c_short, @truncate(((@as(c_int, @bitCast(@as(c_uint, __bsx))) >> @as(@import("std").math.Log2Int(c_int), @intCast(8))) & @as(c_int, 255)) | ((@as(c_int, @bitCast(@as(c_uint, __bsx))) & @as(c_int, 255)) << @as(@import("std").math.Log2Int(c_int), @intCast(8)))))));
 }
 pub fn __bswap_32(arg___bsx: __uint32_t) callconv(.C) __uint32_t {
-    var __bsx = arg___bsx;
+    const __bsx = arg___bsx;
     return ((((__bsx & @as(c_uint, 4278190080)) >> @as(@import("std").math.Log2Int(c_uint), @intCast(24))) | ((__bsx & @as(c_uint, 16711680)) >> @as(@import("std").math.Log2Int(c_uint), @intCast(8)))) | ((__bsx & @as(c_uint, 65280)) << @as(@import("std").math.Log2Int(c_uint), @intCast(8)))) | ((__bsx & @as(c_uint, 255)) << @as(@import("std").math.Log2Int(c_uint), @intCast(24)));
 }
 pub fn __bswap_64(arg___bsx: __uint64_t) callconv(.C) __uint64_t {
-    var __bsx = arg___bsx;
+    const __bsx = arg___bsx;
     return @as(__uint64_t, @bitCast(@as(c_ulong, @truncate(((((((((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 18374686479671623680)) >> @as(@import("std").math.Log2Int(c_ulonglong), @intCast(56))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 71776119061217280)) >> @as(@import("std").math.Log2Int(c_ulonglong), @intCast(40)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 280375465082880)) >> @as(@import("std").math.Log2Int(c_ulonglong), @intCast(24)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 1095216660480)) >> @as(@import("std").math.Log2Int(c_ulonglong), @intCast(8)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 4278190080)) << @as(@import("std").math.Log2Int(c_ulonglong), @intCast(8)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 16711680)) << @as(@import("std").math.Log2Int(c_ulonglong), @intCast(24)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 65280)) << @as(@import("std").math.Log2Int(c_ulonglong), @intCast(40)))) | ((@as(c_ulonglong, @bitCast(@as(c_ulonglong, __bsx))) & @as(c_ulonglong, 255)) << @as(@import("std").math.Log2Int(c_ulonglong), @intCast(56)))))));
 }
 pub fn __uint16_identity(arg___x: __uint16_t) callconv(.C) __uint16_t {
-    var __x = arg___x;
+    const __x = arg___x;
     return __x;
 }
 pub fn __uint32_identity(arg___x: __uint32_t) callconv(.C) __uint32_t {
-    var __x = arg___x;
+    const __x = arg___x;
     return __x;
 }
 pub fn __uint64_identity(arg___x: __uint64_t) callconv(.C) __uint64_t {
-    var __x = arg___x;
+    const __x = arg___x;
     return __x;
 }
 pub const struct_timeval = extern struct {
@@ -1661,7 +1661,7 @@ pub const struct_file_handle = extern struct {
     pub fn f_handle(self: anytype) @import("std").zig.c_translation.FlexibleArrayType(@TypeOf(self), u8) {
         const Intermediate = @import("std").zig.c_translation.FlexibleArrayType(@TypeOf(self), u8);
         const ReturnType = @import("std").zig.c_translation.FlexibleArrayType(@TypeOf(self), u8);
-        return @as(ReturnType, @ptrCast(@alignCast(@alignOf(u8), @as(Intermediate, @ptrCast(self)) + 8)));
+        return @as(ReturnType, @ptrCast(@alignCast(@as(Intermediate, @ptrCast(self)) + 8)));
     }
 };
 pub extern fn readahead(__fd: c_int, __offset: __off64_t, __count: usize) __ssize_t;
@@ -2076,7 +2076,7 @@ pub extern fn fio_unlock(arg_lock: [*c]volatile fio_lock_i) callconv(.C) c_int; 
 // zig-cache/i/e0c8a6e617497ade13de512cbe191f23/include/fio.h:3013:21: warning: unable to translate function, demoted to extern
 pub extern fn fio_is_locked(arg_lock: [*c]volatile fio_lock_i) callconv(.C) c_int;
 pub fn fio_lock(arg_lock: [*c]volatile fio_lock_i) callconv(.C) void {
-    var lock = arg_lock;
+    const lock = arg_lock;
     while (fio_trylock(lock) != 0) {
         fio_reschedule_thread();
     }
@@ -2089,7 +2089,7 @@ pub fn fio_reschedule_thread() callconv(.C) void {
     _ = nanosleep(&tm_1, null);
 }
 pub fn fio_throttle_thread(arg_nano_sec: usize) callconv(.C) void {
-    var nano_sec = arg_nano_sec;
+    const nano_sec = arg_nano_sec;
     const tm_1: struct_timespec = struct_timespec{
         .tv_sec = @as(time_t, @bitCast(nano_sec / @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1000000000)))))),
         .tv_nsec = @as(c_long, @bitCast(nano_sec % @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1000000000)))))),
@@ -2097,23 +2097,23 @@ pub fn fio_throttle_thread(arg_nano_sec: usize) callconv(.C) void {
     _ = nanosleep(&tm_1, null);
 }
 pub fn fio_ct_true(arg_cond: usize) callconv(.C) usize {
-    var cond = arg_cond;
+    const cond = arg_cond;
     return (cond | (@as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))) -% cond)) >> @as(@import("std").math.Log2Int(c_ulong), @intCast((@sizeOf(usize) << @as(@import("std").math.Log2Int(c_ulong), @intCast(3))) -% @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))));
 }
 pub fn fio_ct_false(arg_cond: usize) callconv(.C) usize {
-    var cond = arg_cond;
+    const cond = arg_cond;
     return fio_ct_true(cond) ^ @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))));
 }
 pub fn fio_ct_if(arg_cond: u8, arg_a: usize, arg_b: usize) callconv(.C) usize {
-    var cond = arg_cond;
-    var a = arg_a;
-    var b = arg_b;
+    const cond = arg_cond;
+    const a = arg_a;
+    const b = arg_b;
     return b ^ (@as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0) - (@as(c_int, @bitCast(@as(c_uint, cond))) & @as(c_int, 1))))) & (a ^ b));
 }
 pub fn fio_ct_if2(arg_cond: usize, arg_a: usize, arg_b: usize) callconv(.C) usize {
-    var cond = arg_cond;
-    var a = arg_a;
-    var b = arg_b;
+    const cond = arg_cond;
+    const a = arg_a;
+    const b = arg_b;
     return fio_ct_if(@as(u8, @bitCast(@as(u8, @truncate(fio_ct_true(cond))))), a, b);
 }
 pub extern fn fio_atol(pstr: [*c][*c]u8) i64;
@@ -2125,9 +2125,9 @@ pub extern fn fio_rand_bytes(target: ?*anyopaque, length: usize) void;
 pub export var fio_hash_secret_marker1: u8 = @import("std").mem.zeroes(u8);
 pub export var fio_hash_secret_marker2: u8 = @import("std").mem.zeroes(u8);
 pub fn fio_risky_hash(arg_data_: ?*const anyopaque, arg_len: usize, arg_seed: u64) callconv(.C) u64 {
-    var data_ = arg_data_;
+    const data_ = arg_data_;
     var len = arg_len;
-    var seed = arg_seed;
+    const seed = arg_seed;
     var data: [*c]const u8 = @as([*c]u8, @ptrFromInt(@intFromPtr(data_)));
     var v0: u64 = seed ^ @as(c_ulong, 12327324395758126793);
     var v1: u64 = ~seed +% @as(c_ulong, 12327324395758126793);
@@ -2510,9 +2510,9 @@ pub extern fn fio_sha1_init() fio_sha1_s;
 pub extern fn fio_sha1_write(s: [*c]fio_sha1_s, data: ?*const anyopaque, len: usize) void;
 pub extern fn fio_sha1_result(s: [*c]fio_sha1_s) [*c]u8;
 pub fn fio_sha1(arg_s: [*c]fio_sha1_s, arg_data: ?*const anyopaque, arg_len: usize) callconv(.C) [*c]u8 {
-    var s = arg_s;
-    var data = arg_data;
-    var len = arg_len;
+    const s = arg_s;
+    const data = arg_data;
+    const len = arg_len;
     s.* = fio_sha1_init();
     fio_sha1_write(s, data, len);
     return fio_sha1_result(s);
@@ -2547,25 +2547,25 @@ pub extern fn fio_sha2_init(variant: fio_sha2_variant_e) fio_sha2_s;
 pub extern fn fio_sha2_write(s: [*c]fio_sha2_s, data: ?*const anyopaque, len: usize) void;
 pub extern fn fio_sha2_result(s: [*c]fio_sha2_s) [*c]u8;
 pub fn fio_sha2_512(arg_s: [*c]fio_sha2_s, arg_data: ?*const anyopaque, arg_len: usize) callconv(.C) [*c]u8 {
-    var s = arg_s;
-    var data = arg_data;
-    var len = arg_len;
+    const s = arg_s;
+    const data = arg_data;
+    const len = arg_len;
     s.* = fio_sha2_init(@as(c_uint, @bitCast(SHA_512)));
     fio_sha2_write(s, data, len);
     return fio_sha2_result(s);
 }
 pub fn fio_sha2_256(arg_s: [*c]fio_sha2_s, arg_data: ?*const anyopaque, arg_len: usize) callconv(.C) [*c]u8 {
-    var s = arg_s;
-    var data = arg_data;
-    var len = arg_len;
+    const s = arg_s;
+    const data = arg_data;
+    const len = arg_len;
     s.* = fio_sha2_init(@as(c_uint, @bitCast(SHA_256)));
     fio_sha2_write(s, data, len);
     return fio_sha2_result(s);
 }
 pub fn fio_sha2_384(arg_s: [*c]fio_sha2_s, arg_data: ?*const anyopaque, arg_len: usize) callconv(.C) [*c]u8 {
-    var s = arg_s;
-    var data = arg_data;
-    var len = arg_len;
+    const s = arg_s;
+    const data = arg_data;
+    const len = arg_len;
     s.* = fio_sha2_init(@as(c_uint, @bitCast(SHA_384)));
     fio_sha2_write(s, data, len);
     return fio_sha2_result(s);
@@ -2624,7 +2624,7 @@ pub fn fiobj_obj2float(o: FIOBJ) callconv(.C) f64 {
 }
 pub fn fiobj_obj2cstr(o: FIOBJ) callconv(.C) fio_str_info_s {
     if (!(o != 0)) {
-        var ret: fio_str_info_s = fio_str_info_s{
+        const ret: fio_str_info_s = fio_str_info_s{
             .capa = @as(usize, @bitCast(@as(c_long, @as(c_int, 0)))),
             .len = @as(usize, @bitCast(@as(c_long, @as(c_int, 4)))),
             .data = @as([*c]u8, @ptrFromInt(@intFromPtr("null"))),
@@ -2637,7 +2637,7 @@ pub fn fiobj_obj2cstr(o: FIOBJ) callconv(.C) fio_str_info_s {
             switch (@as(c_int, @bitCast(@as(c_uint, @as(u8, @bitCast(@as(u8, @truncate(o)))))))) {
                 @as(c_int, 6) => {
                     {
-                        var ret: fio_str_info_s = fio_str_info_s{
+                        const ret: fio_str_info_s = fio_str_info_s{
                             .capa = @as(usize, @bitCast(@as(c_long, @as(c_int, 0)))),
                             .len = @as(usize, @bitCast(@as(c_long, @as(c_int, 4)))),
                             .data = @as([*c]u8, @ptrFromInt(@intFromPtr("null"))),
@@ -2647,7 +2647,7 @@ pub fn fiobj_obj2cstr(o: FIOBJ) callconv(.C) fio_str_info_s {
                 },
                 @as(c_int, 38) => {
                     {
-                        var ret: fio_str_info_s = fio_str_info_s{
+                        const ret: fio_str_info_s = fio_str_info_s{
                             .capa = @as(usize, @bitCast(@as(c_long, @as(c_int, 0)))),
                             .len = @as(usize, @bitCast(@as(c_long, @as(c_int, 5)))),
                             .data = @as([*c]u8, @ptrFromInt(@intFromPtr("false"))),
@@ -2657,7 +2657,7 @@ pub fn fiobj_obj2cstr(o: FIOBJ) callconv(.C) fio_str_info_s {
                 },
                 @as(c_int, 22) => {
                     {
-                        var ret: fio_str_info_s = fio_str_info_s{
+                        const ret: fio_str_info_s = fio_str_info_s{
                             .capa = @as(usize, @bitCast(@as(c_long, @as(c_int, 0)))),
                             .len = @as(usize, @bitCast(@as(c_long, @as(c_int, 4)))),
                             .data = @as([*c]u8, @ptrFromInt(@intFromPtr("true"))),
@@ -2675,14 +2675,14 @@ pub fn fiobj_obj2cstr(o: FIOBJ) callconv(.C) fio_str_info_s {
 pub fn fiobj_obj2hash(o: FIOBJ) callconv(.C) u64 {
     if (fiobj_type_is(o, @as(u8, @bitCast(@as(i8, @truncate(FIOBJ_T_STRING))))) != 0) return fiobj_str_hash(o);
     if (!(((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))))) return @as(u64, @bitCast(o));
-    var s: fio_str_info_s = fiobj_obj2cstr(o);
+    const s: fio_str_info_s = fiobj_obj2cstr(o);
     return fio_siphash13(@as(?*const anyopaque, @ptrCast(s.data)), s.len, @as(u64, @intCast(@intFromPtr(&fiobj_each2))), @as(u64, @intCast(@intFromPtr(&fiobj_free_complex_object))));
 }
 pub fn fiobj_each1(arg_o: FIOBJ, arg_start_at: usize, arg_task: ?*const fn (FIOBJ, ?*anyopaque) callconv(.C) c_int, arg_arg: ?*anyopaque) callconv(.C) usize {
-    var o = arg_o;
-    var start_at = arg_start_at;
-    var task = arg_task;
-    var arg = arg_arg;
+    const o = arg_o;
+    const start_at = arg_start_at;
+    const task = arg_task;
+    const arg = arg_arg;
     if ((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (fiobj_type_vtable(o).*.each != null)) return fiobj_type_vtable(o).*.each.?(o, start_at, task, arg);
     return 0;
 }
@@ -2691,42 +2691,42 @@ pub fn fiobj_iseq(o: FIOBJ, o2: FIOBJ) callconv(.C) c_int {
     if (o == o2) return 1;
     if (!(o != 0) or !(o2 != 0)) return 0;
     if (!(((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) or !(((o2 != 0) and ((o2 & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o2 & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))))) return 0;
-    if (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_object_header_s, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_object_header_s), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7))))))))).*.type))) != @as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_object_header_s, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_object_header_s), @as(?*anyopaque, @ptrFromInt(o2 & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7))))))))).*.type)))) return 0;
+    if (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_object_header_s, @ptrCast(@alignCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7))))))))).*.type))) != @as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_object_header_s, @ptrCast(@as(?*anyopaque, @ptrFromInt(o2 & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7))))))))).*.type))) return 0;
     if (!(fiobj_type_vtable(o).*.is_eq.?(o, o2) != 0)) return 0;
     if ((fiobj_type_vtable(o).*.each != null) and (fiobj_type_vtable(o).*.count.?(o) != 0)) return fiobj_iseq____internal_complex__(o, o2);
     return 1;
 }
 pub fn fiobj_type(arg_o: FIOBJ) callconv(.C) fiobj_type_enum {
-    var o = arg_o;
+    const o = arg_o;
     if (!(o != 0)) return @as(u8, @bitCast(@as(i8, @truncate(FIOBJ_T_NULL))));
     if ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) != 0) return @as(u8, @bitCast(@as(i8, @truncate(FIOBJ_T_NUMBER))));
     if ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) return @as(u8, @bitCast(@as(u8, @truncate(o))));
     if (true and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 2)))))) return @as(u8, @bitCast(@as(i8, @truncate(FIOBJ_T_STRING))));
     if (true and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 4)))))) return @as(u8, @bitCast(@as(i8, @truncate(FIOBJ_T_HASH))));
-    return @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_type_enum), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))];
+    return @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))];
 }
 pub fn fiobj_type_is(arg_o: FIOBJ, arg_type: fiobj_type_enum) callconv(.C) usize {
-    var o = arg_o;
-    var @"type" = arg_type;
+    const o = arg_o;
+    const @"type" = arg_type;
     while (true) {
         switch (@as(c_int, @bitCast(@as(c_uint, @"type")))) {
             @as(c_int, 1) => return @as(usize, @bitCast(@as(c_long, @intFromBool(((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) != 0) or (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrFromInt(o))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == FIOBJ_T_NUMBER))))),
             @as(c_int, 6) => return @as(usize, @bitCast(@as(c_long, @intFromBool(!(o != 0) or (o == fiobj_null()))))),
             @as(c_int, 22) => return @as(usize, @bitCast(@as(c_long, @intFromBool(o == fiobj_true())))),
             @as(c_int, 38) => return @as(usize, @bitCast(@as(c_long, @intFromBool(o == fiobj_false())))),
-            @as(c_int, 40) => return @as(usize, @bitCast(@as(c_long, @intFromBool(((true and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 2)))))) or (((@as(c_int, 2) == @as(c_int, 0)) and (((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_type_enum), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == FIOBJ_T_STRING)))))),
+            @as(c_int, 40) => return @as(usize, @bitCast(@as(c_long, @intFromBool(((true and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 2)))))) or (((@as(c_int, 2) == @as(c_int, 0)) and (((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == FIOBJ_T_STRING))))),
             @as(c_int, 42) => {
                 if (true) {
                     return @as(usize, @bitCast(@as(c_long, @intFromBool(((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 4)))))))));
                 }
-                return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_type_enum), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type"))))))));
+                return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type"))))))));
             },
-            @as(c_int, 39), @as(c_int, 41), @as(c_int, 43), @as(c_int, 44) => return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_type_enum), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type")))))))),
+            @as(c_int, 39), @as(c_int, 41), @as(c_int, 43), @as(c_int, 44) => return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type")))))))),
             else => {},
         }
         break;
     }
-    return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@import("std").meta.alignment([*c]fiobj_type_enum), @as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type"))))))));
+    return @as(usize, @bitCast(@as(c_long, @intFromBool((((o != 0) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0)))))) and ((o & @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6))))) != @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 6)))))) and (@as(c_int, @bitCast(@as(c_uint, @as([*c]fiobj_type_enum, @ptrCast(@alignCast(@as(?*anyopaque, @ptrFromInt(o & ~@as(usize, @bitCast(@as(c_long, @as(c_int, 7)))))))))[@as(c_uint, @intCast(@as(c_int, 0)))]))) == @as(c_int, @bitCast(@as(c_uint, @"type"))))))));
 }
 pub const fiobj_object_vtable_s = extern struct {
     class_name: [*c]const u8,
@@ -2750,7 +2750,7 @@ pub extern const FIOBJECT_VTABLE_ARRAY: fiobj_object_vtable_s;
 pub extern const FIOBJECT_VTABLE_HASH: fiobj_object_vtable_s;
 pub extern const FIOBJECT_VTABLE_DATA: fiobj_object_vtable_s;
 pub fn fiobj_type_vtable(arg_o: FIOBJ) callconv(.C) [*c]const fiobj_object_vtable_s {
-    var o = arg_o;
+    const o = arg_o;
     while (true) {
         switch (@as(c_int, @bitCast(@as(c_uint, fiobj_type(o))))) {
             @as(c_int, 1) => return &FIOBJECT_VTABLE_NUMBER,
@@ -2771,8 +2771,8 @@ pub extern fn fio_ltocstr(c_long) fio_str_info_s;
 pub extern fn fio_ftocstr(f64) fio_str_info_s;
 pub extern fn fiobj_str_hash(o: FIOBJ) u64;
 pub fn fiobj_hash_string(arg_data: ?*const anyopaque, arg_len: usize) callconv(.C) u64 {
-    var data = arg_data;
-    var len = arg_len;
+    const data = arg_data;
+    const len = arg_len;
     return fio_siphash13(data, len, @as(u64, @intCast(@intFromPtr(&fiobj_each2))), @as(u64, @intCast(@intFromPtr(&fiobj_free_complex_object))));
 }
 pub extern fn fiobj_iseq____internal_complex__(o: FIOBJ, o2: FIOBJ) c_int;
@@ -2810,8 +2810,8 @@ pub extern fn fiobj_data_assert_dynamic(io: FIOBJ) void;
 pub extern fn fiobj_str_new(str: [*c]const u8, len: usize) FIOBJ;
 pub extern fn fiobj_str_buf(capa: usize) FIOBJ;
 pub fn fiobj_str_copy(arg_src: FIOBJ) callconv(.C) FIOBJ {
-    var src = arg_src;
-    var s: fio_str_info_s = fiobj_obj2cstr(src);
+    const src = arg_src;
+    const s: fio_str_info_s = fiobj_obj2cstr(src);
     return fiobj_str_new(s.data, s.len);
 }
 pub extern fn fiobj_str_move(str: [*c]u8, len: usize, capacity: usize) FIOBJ;
@@ -2846,7 +2846,7 @@ pub extern fn fiobj_hash_get2(hash: FIOBJ, key_hash: u64) FIOBJ;
 pub extern fn fiobj_hash_haskey(hash: FIOBJ, key: FIOBJ) c_int;
 pub extern fn fiobj_hash_clear(hash: FIOBJ) void;
 pub fn fiobj_num_new(arg_num: isize) callconv(.C) FIOBJ {
-    var num = arg_num;
+    const num = arg_num;
     if (((@as(usize, @bitCast(num)) & (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) | (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))))) == @as(c_ulong, @bitCast(@as(c_long, @as(c_int, 0))))) or ((@as(usize, @bitCast(num)) & (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) | (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))))) == (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) | (~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1))) >> @as(@import("std").math.Log2Int(usize), @intCast(1)))))) {
         const num_abs: usize = @as(usize, @bitCast(num)) & (~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1)));
         const num_sign: usize = @as(usize, @bitCast(num)) & ~(~@as(usize, @bitCast(@as(c_long, @as(c_int, 0)))) >> @as(@import("std").math.Log2Int(usize), @intCast(1)));
@@ -2942,7 +2942,7 @@ pub extern fn fiobj_mustache_free(mustache: ?*mustache_s) void;
 pub extern fn fiobj_mustache_build(mustache: ?*mustache_s, data: FIOBJ) FIOBJ;
 pub extern fn fiobj_mustache_build2(dest: FIOBJ, mustache: ?*mustache_s, data: FIOBJ) FIOBJ;
 pub fn fiobj4sock_dealloc(arg_o: ?*anyopaque) callconv(.C) void {
-    var o = arg_o;
+    const o = arg_o;
     fiobj_free(@as(FIOBJ, @intCast(@intFromPtr(o))));
 } // zig-cache/i/e0c8a6e617497ade13de512cbe191f23/include/fio.h:1205:41: warning: cannot initialize opaque type
 // zig-cache/i/e0c8a6e617497ade13de512cbe191f23/include/fiobj4fio.h:13:47: warning: unable to translate function, demoted to extern
@@ -3100,8 +3100,8 @@ pub extern fn http_date2rfc7231(target: [*c]u8, tmbuf: [*c]struct_tm) usize;
 pub extern fn http_date2rfc2109(target: [*c]u8, tmbuf: [*c]struct_tm) usize;
 pub extern fn http_date2rfc2822(target: [*c]u8, tmbuf: [*c]struct_tm) usize;
 pub fn http_date2str(arg_target: [*c]u8, arg_tmbuf: [*c]struct_tm) callconv(.C) usize {
-    var target = arg_target;
-    var tmbuf = arg_tmbuf;
+    const target = arg_target;
+    const tmbuf = arg_tmbuf;
     return http_date2rfc7231(target, tmbuf);
 }
 pub extern fn http_time2str(target: [*c]u8, t: time_t) usize;
