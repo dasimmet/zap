@@ -836,7 +836,7 @@ pub const SimpleHttpListener = struct {
 
     pub fn theOneAndOnlyUpgradeCallBack(r: [*c]fio.http_s, target: [*c]u8, target_len: usize) callconv(.C) void {
         if (the_one_and_only_listener) |l| {
-            const req: SimpleRequest = .{
+            var req: SimpleRequest = .{
                 .path = util.fio2str(r.*.path),
                 .query = util.fio2str(r.*.query),
                 .body = util.fio2str(r.*.body),
